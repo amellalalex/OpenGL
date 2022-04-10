@@ -1,7 +1,13 @@
+// OpenGL
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+
+// Standard C libraries
 #include <stdio.h>
 #include <unistd.h>
+
+// Project headers
+#include "shaders.h"
 
 static void error_callback(int error, const char *desc) {
     fprintf(stderr, "[!] {# %d} %s\n", error, desc);
@@ -63,42 +69,66 @@ int main() {
         0.5f, 0.5f,  0.0f,
     };
 
-    // Copy vertices into vertex buffer object
-    GLuint vbo = 0;
-    glGenBuffers(1, &vbo);
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    float colours[] = {
+        1.0f, 0.0f, 0.0f,\ 
+        0.0f, 1.0f, 0.0f,\ 
+        0.0f, 0.0f, 1.0f,
+    };
+
+    // Copy vertices cinto vertex buffer object
+    GLuint vbo_points = 0;
+    glGenBuffers(1, &vbo_points);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo_points);
     glBufferData(GL_ARRAY_BUFFER, 12 * sizeof(float), vertices, GL_STATIC_DRAW);
+
+    GLuint vbo_colours = 0;
+    glGenBuffers(1, &vbo_points);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo_colours);
+    glBufferData(GL_ARRAY_BUFFER, 9 * sizeof(float), colours, GL_STATIC_DRAW);
 
     // Store vertex buffer in vertex array
     GLuint vao = 0;
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
-    glEnableVertexAttribArray(0);
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo_points);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo_colours);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, NULL);
+
+    glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
 
     // Define vertex shader
-    const char *vertex_shader =
-        "#version 400\n"
-        "in vec3 vp;"
-        "void main() {"
-        "	gl_Position = vec4(vp, 1.0);"
-        "}";
+    // const char *vertex_shader =
+    //     "#version 400\n"
+    //     "in vec3 vp;"
+    //     "void main() {"
+    //     "	gl_Position = vec4(vp, 1.0);"
+    //     "}";
 
-    const char *fragment_shader =
-        "#version 400\n"
-        "out vec4 frag_colour;"
-        "void main() {"
-        "	frag_colour = vec4(0.5, 0.0, 0.5, 1.0);"
-        "}";
+    // const char *fragment_shader =
+    //     "#version 400\n"
+    //     "out vec4 frag_colour;"
+    //     "void main() {"
+    //     "	frag_colour = vec4(0.5, 0.0, 0.5, 1.0);"
+    //     "}";
 
-    // Load strings into shader
-    GLuint vs = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vs, 1, &vertex_shader, NULL);
-    glCompileShader(vs);
-    GLuint fs = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fs, 1, &fragment_shader, NULL);
-    glCompileShader(fs);
+    // // Load strings into shader
+    // GLuint vs = glCreateShader(GL_VERTEX_SHADER);
+    // glShaderSource(vs, 1, &vertex_shader, NULL);
+    // glCompileShader(vs);
+    // GLuint fs = glCreateShader(GL_FRAGMENT_SHADER);
+    // glShaderSource(fs, 1, &fragment_shader, NULL);
+    // glCompileShader(fs);
+
+    GLuint vs, fs;
+    if ((vs = shader_load("src/shaders/vertex.glsl", GL_VERTEX_SHADER)) == 0) {
+        error_callback(-1, "Failed to load shader");
+        return -1;
+    }
+    if ((fs = shader_load("src/shaders/fragment.glsl", GL_FRAGMENT_SHADER)) ==
+        0) {
+    }
 
     // Combine shaders into GPU programme
     GLuint shader_programme = glCreateProgram();
