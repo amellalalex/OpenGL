@@ -1,6 +1,6 @@
 CC = gcc
 CFLAGS = -Wall -O3 -g
-CFLAGS += -Ilib/glad/include -Ilib/glfw/include
+CFLAGS += -Ilib/glad/include -Ilib/glfw/include -Iinclude
 LDFLAGS = lib/glad/src/glad.o lib/glfw/src/libglfw3.a -lm
 
 SRC = $(wildcard src/*.c)
