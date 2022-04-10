@@ -8,7 +8,7 @@
  * @return GLuint
  */
 shader shader_load(const char* path, unsigned int type) {
-    GLuint shader;
+    GLuint shader = 0;
 
     // Load shader
     FILE* fshader = fopen(path, "r");
@@ -31,12 +31,9 @@ shader shader_load(const char* path, unsigned int type) {
     }
     shader_text[fsize] = '\0';
 
-    // DEBUG
-    printf("%s\n", shader_text);
-
     // Load text into shader
     shader = glCreateShader(type);
-    glShaderSource(shader, 1, &shader_text, NULL);
+    glShaderSource(shader, 1, (const GLchar* const*)&shader_text, NULL);
     glCompileShader(shader);
 
 cleanup:
