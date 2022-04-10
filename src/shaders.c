@@ -7,7 +7,7 @@
  * @param type Specify whether shader is vertex or fragment
  * @return GLuint
  */
-GLuint shader_load(const char* path, unsigned int type) {
+shader shader_load(const char* path, unsigned int type) {
     GLuint shader;
 
     // Load shader

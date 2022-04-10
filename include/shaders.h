@@ -10,6 +10,9 @@
 #include <stdlib.h>
 #include <sys/stat.h>
 
+// Shader type
+typedef GLuint shader;
+
 /**
  * @brief Load shader file into lib
  *
@@ -17,6 +20,6 @@
  * @param type Specify whether shader is vertex or fragment
  * @return GLuint
  */
-GLuint shader_load(const char* path, unsigned int type);
+shader shader_load(const char* path, unsigned int type);
 
 #endif

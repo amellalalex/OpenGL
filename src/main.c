@@ -98,30 +98,8 @@ int main() {
     glEnableVertexAttribArray(0);
     glEnableVertexAttribArray(1);
 
-    // Define vertex shader
-    // const char *vertex_shader =
-    //     "#version 400\n"
-    //     "in vec3 vp;"
-    //     "void main() {"
-    //     "	gl_Position = vec4(vp, 1.0);"
-    //     "}";
-
-    // const char *fragment_shader =
-    //     "#version 400\n"
-    //     "out vec4 frag_colour;"
-    //     "void main() {"
-    //     "	frag_colour = vec4(0.5, 0.0, 0.5, 1.0);"
-    //     "}";
-
-    // // Load strings into shader
-    // GLuint vs = glCreateShader(GL_VERTEX_SHADER);
-    // glShaderSource(vs, 1, &vertex_shader, NULL);
-    // glCompileShader(vs);
-    // GLuint fs = glCreateShader(GL_FRAGMENT_SHADER);
-    // glShaderSource(fs, 1, &fragment_shader, NULL);
-    // glCompileShader(fs);
-
-    GLuint vs, fs;
+    // Load shaders
+    shader vs, fs;
     if ((vs = shader_load("src/shaders/vertex.glsl", GL_VERTEX_SHADER)) == 0) {
         error_callback(-1, "Failed to load shader");
         return -1;
